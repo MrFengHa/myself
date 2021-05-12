@@ -1,0 +1,122 @@
+package ${packageName}.controller;
+
+import java.util.List;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.enums.BusinessType;
+import ${packageName}.domain.${ClassName};
+import ${packageName}.service.I${ClassName}Service;
+import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.utils.poi.ExcelUtil;
+#if($table.crud || $table.sub)
+import com.ruoyi.common.core.page.TableDataInfo;
+#elseif($table.tree)
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.core.domain.Ztree;
+#end
+
+/**
+ * ${functionName}Controller
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Controller
+@RequestMapping("/${moduleName}/${businessName}")
+public class ${ClassName}Controller extends BaseController
+{
+    private String prefix = "${moduleName}/${businessName}";
+
+    @Autowired
+    private ${ClassName}Service ${className}Service;
+
+    @RequiresPermissions("${permissionPrefix}:view")
+    @GetMapping()
+    public String ${businessName}() {
+        return prefix + "/${businessName}";
+    }
+
+    /**
+     * 查询${functionName}列表
+     */
+    @RequiresPermissions("${permissionPrefix}:list")
+    @PostMapping("/list")
+    @ResponseBody
+    public TableDataInfo list(${ClassName} ${className}) {
+        startPage();
+        List<${ClassName}> list = ${className}Service.selectList(${className});
+        return getDataTable(list);
+    }
+
+
+    /**
+     * 导出${functionName}列表
+     */
+    @RequiresPermissions("${permissionPrefix}:export")
+    @Log(title = "${functionName}", businessType = BusinessType.EXPORT)
+    @PostMapping("/export")
+    @ResponseBody
+    public AjaxResult export(${ClassName} ${className}) {
+        List<${ClassName}> list = ${className}Service.selectList(${className});
+        ExcelUtil<${ClassName}> util = new ExcelUtil<${ClassName}>(${ClassName}.class);
+        return util.exportExcel(list, "${businessName}");
+    }
+
+    /**
+     * 新增${functionName}
+     */
+    @GetMapping("/add")
+    public String add(ModelMap mmap) {
+        ${ClassName} ${className} = new ${ClassName}();
+        mmap.put("${className}", ${className});
+        return prefix + "/form";
+    }
+
+    /**
+     * 修改${functionName}
+     */
+    @GetMapping("/edit/{${pkColumn.javaField}}")
+    public String edit(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField}, ModelMap mmap) {
+        ${ClassName} ${className} =${className}Service.getById(${pkColumn.javaField});
+        mmap.put("${className}", ${className});
+        return prefix + "/form";
+    }
+
+    /**
+     * 修改and新增${functionName}
+     */
+    @RequiresPermissions("${permissionPrefix}:edit")
+    @Log(title = "${functionName}", businessType = BusinessType.UPDATE)
+    @PostMapping("/edit")
+    @ResponseBody
+    public AjaxResult editSave(${ClassName} ${className}) {
+        if (ObjectUtils.isEmpty(${className}) || ObjectUtils.isEmpty(${className}.getId())){
+            return toAjax(${className}Service.save(${className}));
+        }
+        return toAjax(${className}Service.updateById(${className}));
+    }
+
+    /**
+     * 删除${functionName}
+     */
+    @RequiresPermissions("${permissionPrefix}:remove")
+    @Log(title = "${functionName}", businessType = BusinessType.DELETE)
+    @PostMapping("/remove")
+    @ResponseBody
+    public AjaxResult remove(String ids) {
+        //删除的id不能为空
+        if (StringUtils.isEmpty(ids)){
+            return toAjax(false);
+        }
+        return toAjax(${className}Service.removeByIds(Arrays.asList(Convert.toStrArray(ids))));
+    }
+}

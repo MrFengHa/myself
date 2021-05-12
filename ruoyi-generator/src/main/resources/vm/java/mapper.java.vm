@@ -1,0 +1,26 @@
+package ${packageName}.${moduleName}.mapper;
+
+import ${packageName}.${moduleName}.domain.${ClassName};
+import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.dynamic.datasource.annotation.DS;
+
+/**
+ * ${functionName} 数据层
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Mapper
+public interface ${ClassName}Mapper extends BaseMapper<${ClassName}> {
+
+    /**
+     * 查询${functionName}列表
+     *
+     * @param ${ClassName} ${functionName}信息
+     * @return ${functionName}集合
+     */
+    List<${ClassName}> selectList(${ClassName} ${ClassName});
+
+}

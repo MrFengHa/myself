@@ -1,0 +1,64 @@
+package ${packageName}.domain;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.Accessors;
+import com.ruoyi.common.annotation.Excel;
+#if($table.crud || $table.sub)
+import com.ruoyi.common.core.domain.BaseEntity;
+#elseif($table.tree)
+#end
+
+/**
+ * ${functionName}对象 ${tableName}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+#if($table.crud || $table.sub)
+#set($Entity="BaseEntity")
+#elseif($table.tree)
+#set($Entity="TreeEntity")
+#end
+@Data
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Accessors(chain = true)
+@TableName("${tableName}")
+public class ${ClassName} extends ${Entity}
+{
+    private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+    #if(!$column.isSuperColumn($column.javaField))
+        #if($column.list)
+            #set($parentheseIndex=$column.columnComment.indexOf("（"))
+            #if($parentheseIndex != -1)
+                #set($comment=$column.columnComment.substring(0, $parentheseIndex))
+            #elseif($column.columnComment=='null')
+                #set($comment='')
+            #else
+                #set($comment=$column.columnComment)
+            #end
+        /** $comment */
+            #if($parentheseIndex != -1)
+            @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+            #elseif($column.javaType == 'Date')
+            @Excel(name = "${comment}", width = 30, dateFormat = "yyyy-MM-dd")
+            #else
+            @Excel(name = "${comment}")
+            #end
+        #end
+        #if($column.isPk())
+        @TableId
+        #end
+    private $column.javaType $column.javaField;
+    #end
+#end
+}
