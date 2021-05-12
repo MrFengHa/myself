@@ -135,3 +135,20 @@ xss:
 swagger:
   # 是否开启swagger
   enabled: true
+
+
+uploadWay: localUpload
+
+# 外网访问
+aliyunoss.accessDomain: *
+aliyunoss.endpoint: *
+aliyunoss.accessKeyId: *
+aliyunoss.accessKeySecret: *
+aliyunoss.bucketName: '*'
+aliyunoss.basePath: /*
+
+#本地磁盘上传
+# 外网访问
+localFile.accessDomain: http://localhost
+# 上传文件目录
+localFile.basePath: /Users/fenggenyuan/fileUpload/work/js365/js365-website/
