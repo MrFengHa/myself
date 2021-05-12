@@ -37,7 +37,7 @@ public class MemberController extends BaseController {
     @RequiresPermissions("system:member:view")
     @GetMapping()
     public String member() {
-        return prefix + "/list";
+        return prefix + "/vue";
     }
 
     /**

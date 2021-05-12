@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <th:block th:include="include :: editor" />
+  <th:block th:include="include :: vue" />
+  <title>Title</title>
+</head>
+<body>
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+  <div id="vue">
+
+    <el-card class="box-card">
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="文章标题" prop="title">
+              <el-input v-model="form.title"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="文章类型" prop="typeId">
+              <el-select v-model="form.typeId" placeholder="请选择" style="width: 100%">
+                <el-option
+                        v-for="item in articleTypeList"
+                        :key="item.id"
+                        :label="item.typeName"
+                        :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="详情简要">
+              <el-input type="textarea" v-model="form.briefly" rows="7" placeholder="多个换行"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="封面图">
+              <el-upload
+                      class="avatar-uploader"
+                      :action = "imgUploadUrl"
+                      :show-file-list="false"
+                      :on-success="handleAvatarSuccess">
+                <img v-if="form.coverImageUrl" :src="form.coverImageUrl" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-form-item label="文章内容">
+            <el-col :span="23">
+              <div id="content"></div>
+            </el-col>
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="信息来源" prop="source">
+              <el-input v-model="form.source"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="排序">
+              <el-input type="number" v-model="form.sort"></el-input>
+            </el-form-item>
+          </el-col>
+
+        </el-row>
+        <el-form-item style="text-align: center">
+          <el-button type="primary" @click="submitHandler('form')">保存</el-button>
+          <el-button @click="closeItem()">取消</el-button>
+        </el-form-item>
+      </el-form>
+
+    </el-card>
+  </div>
+</div>
+
+<script type="text/javascript" th:inline="javascript">
+
+  var app = new Vue({
+    el: '#vue',
+    data() {
+      return {
+        articleTypeList: [],
+        form: {
+          id: null,
+          title: '',
+          typeId:null,
+          briefly: '',
+          coverImageUrl: null,
+          content: '',
+          sort: null,
+          status: null,
+          source: null,
+        },
+        imgUploadUrl: "/ow/upload",
+        rules: {
+          typeId: [
+            { required: true, message: '请选择类型', trigger: 'isSelect' },
+          ],
+          title: [
+            { required: true, message: '请输入标题', trigger: 'blur' },
+          ],
+        },
+      }
+    },
+    created() {
+      this.init();
+    },
+    mounted() {
+      this.editor = initMyEditor('#content');
+      this.editor.txt.html(this.form.content);
+
+      this.articleTypeList = [[${types}]];
+    },
+    methods: {
+      init(){
+        const articleContent = [[${article}]];
+        if(articleContent.id != null){
+          articleContent.type += '';
+          this.form = articleContent;
+        }
+      },
+      handleAvatarSuccess(res, file) {
+        if(res.data == null){
+          this.$message({
+            message: '上传失败',
+            type: 'warning',
+            customClass: 'messageright'
+          });
+        } else {
+          this.form.coverImageUrl = res.data[0].fileUrl;
+        }
+      },
+      submitHandler(formName){
+
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.form.content = this.editor.txt.html();
+            $.ajax({
+              url: "/guidance/edit",
+              type: "POST",
+              dateType: "json",
+              data: this.form,
+              async: true,
+              success: function (result) {
+                $.operate.successTabCallback(result);
+              }
+            })
+          } else {
+            return false;
+          }
+        });
+
+      },
+      closeItem(){
+        closeItem();
+      }
+    }
+  });
+
+</script>
+</body>
+</html>
+
+<style>
+  .w-e-toolbar {
+    flex-wrap: wrap;
+    -webkit-box-lines: multiple;
+  }
+
+  .w-e-toolbar .w-e-menu:hover{
+    z-index: 10002!important;
+  }
+
+  .w-e-menu a {
+    text-decoration: none;
+  }
+
+  .fullscreen-editor {
+    position: fixed !important;
+    width: 100% !important;
+    height: 100% !important;
+    left: 0px !important;
+    top: 0px !important;
+    background-color: white;
+    z-index: 9999;
+  }
+
+  .fullscreen-editor .w-e-text-container {
+    width: 100% !important;
+    height: 95% !important;
+  }
+  .el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 180px;
+    margin-left: 10px;
+    vertical-align: bottom;
+  }
+</style>
+<style>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 150px;
+    height: 150px;
+    line-height: 150px;
+    text-align: center;
+  }
+  .avatar {
+    width: 150px;
+    height: 150px;
+    display: block;
+  }
+</style>
