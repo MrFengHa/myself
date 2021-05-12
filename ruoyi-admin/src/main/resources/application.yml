@@ -140,10 +140,10 @@ swagger:
 uploadWay: localUpload
 
 # 外网访问
-aliyunoss.accessDomain: *
-aliyunoss.endpoint: *
-aliyunoss.accessKeyId: *
-aliyunoss.accessKeySecret: *
+aliyunoss.accessDomain: /*
+aliyunoss.endpoint: /*
+aliyunoss.accessKeyId: /*
+aliyunoss.accessKeySecret: /*
 aliyunoss.bucketName: '*'
 aliyunoss.basePath: /*
 
