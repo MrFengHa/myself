@@ -1,6 +1,11 @@
 ## 运行myself.sql就可以不需要运行其他两个
 其他两个是ruoyi纯净数据库，没受到我的污染
-
+## 添加项
+添加了mybatisPlus
+添加了Vue
+添加了ElementUI
+添加了Editor富文本编辑器
+添加了百度那个图表工具
 
 
 
