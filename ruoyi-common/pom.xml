@@ -115,7 +115,11 @@
             <artifactId>jsoup</artifactId>
             <version>1.10.2</version>
         </dependency>
-
+        <!--MybatisPlus-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

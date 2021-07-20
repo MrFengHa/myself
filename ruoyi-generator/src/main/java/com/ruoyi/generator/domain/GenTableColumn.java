@@ -1,12 +1,15 @@
 package com.ruoyi.generator.domain;
 
-import javax.validation.constraints.NotBlank;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.google.common.base.CaseFormat;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.utils.StringUtils;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * 代码生成业务字段表 gen_table_column
- * 
+ *
  * @author ruoyi
  */
 public class GenTableColumn extends BaseEntity
@@ -67,6 +70,14 @@ public class GenTableColumn extends BaseEntity
 
     /** 排序 */
     private Integer sort;
+
+    @TableField(exist = false)
+    private String upperCamel;
+
+
+    public void setUpperCamel(String upperCamel) {
+        this.upperCamel = upperCamel;
+    }
 
     public void setColumnId(Long columnId)
     {
@@ -369,5 +380,15 @@ public class GenTableColumn extends BaseEntity
         {
             return this.columnComment;
         }
+    }
+
+    /**
+     * 获取字段首字母大写
+     */
+    public String getUpperCamel() {
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(columnName)) {
+            return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, columnName);
+        }
+        return "";
     }
 }
