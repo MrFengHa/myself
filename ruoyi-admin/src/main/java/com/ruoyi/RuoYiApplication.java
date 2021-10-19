@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
-import springfox.documentation.oas.annotations.EnableOpenApi;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -21,7 +20,6 @@ import java.util.Arrays;
  * @author ruoyi
  */
 @ComponentScan(basePackages = {"com.ruoyi.*","com.ruoyi.web.core.config"})
-@EnableOpenApi
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 public class RuoYiApplication  implements CommandLineRunner
 {

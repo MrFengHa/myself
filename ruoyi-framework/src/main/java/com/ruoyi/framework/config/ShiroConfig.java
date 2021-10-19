@@ -293,6 +293,7 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/webjars/**", "anon");
         filterChainDefinitionMap.put("/configuration/**", "anon");
         filterChainDefinitionMap.put("/*/api-docs", "anon");
+        filterChainDefinitionMap.put("/druid/**", "anon");
         //API
         filterChainDefinitionMap.put("/api/**", "anon,captchaValidate");
         // 注册相关

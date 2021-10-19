@@ -95,13 +95,7 @@
                 <artifactId>UserAgentUtils</artifactId>
                 <version>${bitwalker.version}</version>
             </dependency>
-
-            <!-- SpringBoot集成mybatis框架 -->
-<!--            <dependency>-->
-<!--                <groupId>org.mybatis.spring.boot</groupId>-->
-<!--                <artifactId>mybatis-spring-boot-starter</artifactId>-->
-<!--                <version>${mybatis-spring-boot.version}</version>-->
-<!--            </dependency>-->
+            <!--加入mybatis-plus-->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -134,10 +128,10 @@
                 <version>${jna.version}</version>
             </dependency>
 
-            <!-- swagger3-->
+            <!-- swagger2-->
             <dependency>
                 <groupId>io.springfox</groupId>
-                <artifactId>springfox-boot-starter</artifactId>
+                <artifactId>springfox-swagger2</artifactId>
                 <version>${swagger.version}</version>
                 <exclusions>
                     <exclusion>
@@ -151,7 +145,7 @@
                 </exclusions>
             </dependency>
 
-            <!-- swagger3-UI-->
+            <!-- swagger2-UI-->
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
