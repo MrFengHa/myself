@@ -49,7 +49,7 @@ public class RuoYiApplication  implements CommandLineRunner
                     "\n------------------------环境信息---------------------------\n\t"
                             + "Application '{}' is running! Access URLs:\n\t"
                             + "Local  : \thttp://{}:{}\n\t"
-                            + "Swagger: \thttp://{}:{}/swagger-ui/index.html\n\t"
+                            + "Swagger: \thttp://{}:{}/swagger-ui.html\n\t"
                             + "Profile(s): \t{}\n----------------------------------------------------------",
                     environment.getProperty("spring.application.name"),
                     InetAddress.getLocalHost().getHostAddress(),
