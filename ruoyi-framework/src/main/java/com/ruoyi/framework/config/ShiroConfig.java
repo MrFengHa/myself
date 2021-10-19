@@ -289,6 +289,16 @@ public class ShiroConfig
         // 系统权限列表
         // filterChainDefinitionMap.putAll(SpringUtils.getBean(IMenuService.class).selectPermsAll());
 
+        //Swagger
+        filterChainDefinitionMap.put("/swagger-ui.html", "anon,captchaValidate");
+        filterChainDefinitionMap.put("/swagger/**", "anon,captchaValidate");
+        filterChainDefinitionMap.put("/swagger-resources/**", "anon,captchaValidate");
+        filterChainDefinitionMap.put("/v2/**", "anon,captchaValidate");
+        filterChainDefinitionMap.put("/webjars/**", "anon,captchaValidate");
+        filterChainDefinitionMap.put("/configuration/**", "anon");
+        filterChainDefinitionMap.put("/*/api-docs", "anon,captchaValidate");
+        //API
+        filterChainDefinitionMap.put("/api/**", "anon,captchaValidate");
         Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
         filters.put("onlineSession", onlineSessionFilter());
         filters.put("syncOnlineSession", syncOnlineSessionFilter());
