@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -19,7 +20,8 @@ import java.util.Arrays;
  *
  * @author ruoyi
  */
-@ComponentScan(basePackages = {"com.ruoyi.*"})
+@ComponentScan(basePackages = {"com.ruoyi.*","com.ruoyi.web.core.config"})
+@EnableOpenApi
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 public class RuoYiApplication  implements CommandLineRunner
 {
@@ -49,7 +51,7 @@ public class RuoYiApplication  implements CommandLineRunner
                     "\n------------------------环境信息---------------------------\n\t"
                             + "Application '{}' is running! Access URLs:\n\t"
                             + "Local  : \thttp://{}:{}\n\t"
-                            + "Swagger: \thttp://{}:{}/api/swagger-ui.html\n\t"
+                            + "Swagger: \thttp://{}:{}/swagger-ui/index.html\n\t"
                             + "Profile(s): \t{}\n----------------------------------------------------------",
                     environment.getProperty("spring.application.name"),
                     InetAddress.getLocalHost().getHostAddress(),
