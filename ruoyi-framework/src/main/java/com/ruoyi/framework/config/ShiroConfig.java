@@ -286,7 +286,7 @@ public class ShiroConfig
         // 不需要拦截的访问
         filterChainDefinitionMap.put("/login", "anon,captchaValidate");
         //Swagger
-        filterChainDefinitionMap.put("/swagger-ui/index.html", "anon");
+        filterChainDefinitionMap.put("/swagger-ui.html", "anon,captchaValidate");
         filterChainDefinitionMap.put("/swagger/**", "anon");
         filterChainDefinitionMap.put("/swagger-resources/**", "anon");
         filterChainDefinitionMap.put("/v2/**", "anon");
